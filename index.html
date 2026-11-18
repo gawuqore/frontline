@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0a12">
+  <meta name="description" content="Frontline — личный тренер волейболиста: тренировки, питание, прогресс.">
+  <title>Frontline</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <header class="top">
+    <div class="brand"><span class="logo-mark"></span><span id="title">Frontline</span></div>
+    <div class="top-right" id="topRight"></div>
+  </header>
+
+  <main id="view"></main>
+
+  <nav class="tabbar">
+    <button data-tab="today" class="active">
+      <svg viewBox="0 0 24 24"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg><span>Сегодня</span></button>
+    <button data-tab="train">
+      <svg viewBox="0 0 24 24"><path d="M3 10v4M6 7v10M18 7v10M21 10v4M6 12h12"/></svg><span>Тренер</span></button>
+    <button data-tab="food">
+      <svg viewBox="0 0 24 24"><path d="M7 3v8a3 3 0 0 0 3 3v7M10 3v6M4 3v6a3 3 0 0 0 3 3M17 3c-2 2-3 5-3 8h3v10"/></svg><span>Питание</span></button>
+    <button data-tab="progress">
+      <svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg><span>Прогресс</span></button>
+    <button data-tab="more">
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>Ещё</span></button>
+  </nav>
+
+  <div class="sheet-back" id="sheetBack"></div>
+  <section class="sheet" id="sheet"><div class="sheet-handle"></div><div id="sheetBody"></div></section>
+  <div class="toast" id="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
