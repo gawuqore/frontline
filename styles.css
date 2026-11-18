@@ -198,6 +198,17 @@ table.t td.r, table.t th.r { text-align: right; }
 .pain button { padding: 10px 0; border-radius: 10px; border: 1px solid var(--line); background: var(--card-2); font-weight: 700; cursor: pointer; }
 .pain button.on { background: var(--grad); border-color: transparent; }
 
+/* фото техники */
+.photo { position: relative; margin: 12px 0; border-radius: var(--r); overflow: hidden; aspect-ratio: 3 / 2; background: var(--card-2); cursor: pointer; border: 1px solid var(--line); }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .35s; }
+.photo img.p2 { opacity: 0; }
+.photo.alt img.p2 { opacity: 1; }
+.photo-tabs { position: absolute; left: 10px; top: 10px; display: flex; gap: 4px; background: rgba(11, 10, 18, .7); backdrop-filter: blur(8px); padding: 4px; border-radius: 10px; }
+.photo-tabs span { padding: 4px 10px; border-radius: 7px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.photo-tabs span.on { background: var(--grad); color: #fff; }
+.photo-hint { position: absolute; right: 10px; bottom: 8px; font-size: 11px; color: #fff; background: rgba(11, 10, 18, .6); padding: 3px 8px; border-radius: 8px; }
+.thumb { width: 52px; height: 38px; border-radius: 9px; object-fit: cover; flex: none; background: var(--card-2); display: block; }
+
 .empty { text-align: center; color: var(--muted); padding: 18px 0; font-size: 14px; }
 hr.s { border: 0; border-top: 1px solid var(--line); margin: 14px 0; }
 a { color: #c4b5fd; }

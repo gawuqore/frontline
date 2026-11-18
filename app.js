@@ -403,7 +403,7 @@ const VIEWS = {
         <div class="btn-row"><button class="btn sm primary" data-act="backup">⬆ Сделать бэкап</button><label class="btn sm">⬇ Восстановить<input type="file" accept=".json" data-act="restore" hidden></label></div>
         <hr class="s"><button class="btn sm" data-act="reset" style="color:var(--bad)">Сбросить всё</button>
       </div>
-      <div class="muted tiny" style="text-align:center;margin:16px 0">Frontline v1.0 · всегда на передней линии</div>
+      <div class="muted tiny" style="text-align:center;margin:16px 0">Frontline v1.1 · всегда на передней линии<br>Фото упражнений: free-exercise-db (общественное достояние)</div>
     `;
   },
 };
@@ -476,14 +476,33 @@ function openExercise(it, d, back) {
     <h2 style="margin-top:12px">${e.n}</h2>
     <div class="row wrap"><span class="pill">${e.g}</span>${e.knee === 'safe' ? '<span class="pill ok">бережно к коленям</span>' : e.knee === 'jump' ? '<span class="pill warn">прыжковое</span>' : '<span class="pill warn">нагрузка на колено</span>'}</div>
     <div class="card" style="margin-top:12px"><div class="muted tiny">Подходы</div><div style="font-size:20px;font-weight:800">${it.sets > 1 ? it.sets + ' × ' : ''}${esc(it.reps)}</div>${it.rest ? `<div class="muted tiny">отдых ${it.rest} с</div>` : ''}</div>
-    <div class="card"><div class="muted tiny">Техника</div><div class="small" style="margin-top:4px">${e.how}</div></div>
+    ${PHOTOS.has(it.id) ? `<div class="photo" data-photo>
+        <img src="img/${it.id}-0.jpg" alt="${esc(e.n)} — старт" loading="lazy"><img src="img/${it.id}-1.jpg" alt="${esc(e.n)} — финиш" loading="lazy" class="p2">
+        <div class="photo-tabs"><span class="on">Старт</span><span>Финиш</span></div><div class="photo-hint">нажми, чтобы остановить</div></div>` : ''}
+    <div class="card"><div class="muted tiny">Техника</div><div class="small" style="margin-top:4px">${e.how}</div>
+      <a class="btn sm" style="margin-top:10px" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.n.replace(/\s*\(.*?\)/g, '') + ' техника выполнения')}">▶ Видео техники на YouTube</a></div>
     ${weighted ? `<div class="card"><div class="small"><b>Записать подход</b></div>
       <div class="row" style="margin-top:8px"><input type="number" inputmode="decimal" placeholder="вес, кг" id="sw" value="${hist[0] ? hist[0].w : ''}"><input type="number" inputmode="numeric" placeholder="повторы" id="sr"><button class="btn primary" data-addset>+</button></div>
       ${hist.length ? `<table class="t" style="margin-top:8px">${hist.map(h => `<tr><td class="muted small">${fmtShort(h.d)}</td><td class="r small">${h.w} кг × ${h.r}</td></tr>`).join('')}</table>` : '<div class="muted tiny" style="margin-top:6px">Если вес собственный — пиши 0.</div>'}</div>` : ''}
     ${it.rest ? `<button class="btn block" data-timer>⏱ Таймер отдыха ${it.rest} с</button>` : ''}
     <button class="btn ${isDone ? '' : 'primary'} block" data-done style="margin-top:8px">${isDone ? 'Отметка снята? Нажми ещё раз' : '✓ Упражнение сделано'}</button>
   `, el => {
-    el.querySelector('[data-back]').onclick = back;
+    el.querySelector('[data-back]').onclick = () => { clearInterval(openExercise._p); back(); };
+    // фото: чередуем «старт» и «финиш», как короткая анимация движения
+    const ph = el.querySelector('[data-photo]');
+    clearInterval(openExercise._p);
+    if (ph) {
+      let f = 0, run = true;
+      const show = () => { ph.classList.toggle('alt', f === 1); ph.querySelectorAll('.photo-tabs span').forEach((s, i) => s.classList.toggle('on', i === f)); };
+      openExercise._p = setInterval(() => { if (run && document.body.contains(ph)) { f = 1 - f; show(); } }, 1300);
+      ph.onclick = ev => {
+        const tab = ev.target.closest('.photo-tabs span');
+        if (tab) { run = false; f = [...tab.parentNode.children].indexOf(tab); }
+        else { run = !run; }
+        ph.querySelector('.photo-hint').textContent = run ? 'нажми, чтобы остановить' : 'нажми, чтобы запустить';
+        show();
+      };
+    }
     const add = el.querySelector('[data-addset]');
     if (add) add.onclick = () => {
       const w = parseFloat($('#sw').value), r = parseInt($('#sr').value, 10);
@@ -512,7 +531,7 @@ function openLibrary() {
   const groups = {};
   Object.entries(EX).forEach(([id, e]) => (groups[e.g] = groups[e.g] || []).push([id, e]));
   openSheet(`<h2>Упражнения</h2><div class="muted small">Нажми на любое — откроется техника.</div>` +
-    Object.entries(groups).map(([g, arr]) => `<div class="section-title">${g}</div><div class="card"><ul class="list">${arr.map(([id, e]) => `<li class="ex" data-lib="${id}"><div style="flex:1"><div class="ex-name">${e.n}</div></div>${e.knee === 'safe' ? '' : '<span class="pill warn">колено</span>'}</li>`).join('')}</ul></div>`).join(''),
+    Object.entries(groups).map(([g, arr]) => `<div class="section-title">${g}</div><div class="card"><ul class="list">${arr.map(([id, e]) => `<li class="ex" data-lib="${id}">${PHOTOS.has(id) ? `<img class="thumb" src="img/${id}-0.jpg" alt="" loading="lazy">` : '<span class="thumb"></span>'}<div style="flex:1"><div class="ex-name">${e.n}</div></div>${e.knee === 'safe' ? '' : '<span class="pill warn">колено</span>'}</li>`).join('')}</ul></div>`).join(''),
   el => el.querySelectorAll('[data-lib]').forEach(li => li.onclick = () => openExercise({ uid: 'lib', id: li.dataset.lib, sets: 1, reps: '—' }, today(), openLibrary)));
 }
 

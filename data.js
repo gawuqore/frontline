@@ -61,6 +61,12 @@ const EX = {
   walk:        { n: 'Прогулка быстрым шагом', g: 'Кардио', knee: 'safe', how: 'Темп, при котором можно говорить, но петь уже нет. Цель — 8–10 тыс. шагов за день.' },
 };
 
+/* Упражнения с фото техники (img/<id>-0.jpg — старт, img/<id>-1.jpg — финиш).
+   Фото: free-exercise-db (github.com/yuhonas/free-exercise-db), лицензия Unlicense — общественное достояние */
+const PHOTOS = new Set(['bike_warm', 'joint_warm', 'stretch', 'foam', 'hip_thrust', 'leg_press', 'goblet_box', 'rdl', 'leg_curl', 'calf',
+  'calf_single', 'single_bridge', 'monster', 'lat_pull', 'db_row', 'pullup', 'incline_db', 'seated_db', 'face_pull', 'ext_rot', 'rear_fly',
+  'pushup', 'tri_push', 'plank', 'side_plank', 'dead_bug', 'pallof', 'mb_slam', 'mb_rot', 'hang_knee', 'box_jump', 'kb_swing', 'incline_walk', 'bike_int']);
+
 /* Тренировки. phase: с какой фазы блок появляется (1 — сразу) */
 const WORKOUTS = {
   gymA: {
