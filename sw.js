@@ -1,5 +1,5 @@
 /* Frontline service worker — офлайн-режим */
-const CACHE = 'frontline-v2';
+const CACHE = 'frontline-v3';
 const FILES = ['./', 'index.html', 'styles.css', 'data.js', 'app.js', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {

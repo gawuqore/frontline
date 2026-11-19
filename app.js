@@ -216,7 +216,7 @@ const VIEWS = {
 
       <div class="card">
         <div class="row between"><h3>Вода</h3><span class="muted small">${(water * 0.25).toFixed(2).replace(/\.?0+$/, '')} / ${t.waterGl * 0.25} л</span></div>
-        <div class="water">${Array.from({ length: t.waterGl }, (_, i) => `<button class="${i < water ? 'on' : ''}" data-act="water" data-n="${i + 1}" aria-label="стакан ${i + 1}"></button>`).join('')}</div>
+        <div class="water">${Array.from({ length: 16 }, (_, i) => `<button class="${i < water ? 'on' : ''} ${i >= t.waterGl ? 'extra' : ''}" data-act="water" data-n="${i + 1}" aria-label="стакан ${i + 1}"></button>`).join('')}</div>
         <div class="muted tiny" style="margin-top:8px">1 стакан = 250 мл. Нажми на стакан, чтобы отметить.</div>
       </div>
 
